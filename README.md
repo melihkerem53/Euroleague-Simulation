@@ -5,8 +5,6 @@
 #include <string.h>
 
 #define BOYUT 18
-
-//random sayı üret grup aşaması
 int func1(int i)
 {
 	if (i < (BOYUT / 2))
@@ -19,14 +17,11 @@ int func1(int i)
 		return rand() % 40 + 60;
 	}
 }
-
-//
 int func2()
 {
 	return rand() % 50 + 70;
 }
 
-//Puan durumundaki istatiskleri tutmak için dizigenel matrisi olusturlmuş ve takımlar puanlarına göre sılanmış.Puanları eşit takımlar averajlarına göre averajları eşit takımların gol atma sayılarına göre sıralaması olmustur.
 void func3(int dizigenel[BOYUT][9]) {
 	int i, j, t;
 
@@ -71,20 +66,20 @@ int main() {
 						,"Valencia","Bologna","Bayern Munih","Alba Berlin","Panathinaikos","Asvel" };
 
 
-	int bosluk[BOYUT];//takım isimlerinin karakter uzunluğu
+	int bosluk[BOYUT];
 	for (int i = 0; i < BOYUT; i++)
 	{
 		bosluk[i] = strlen(dizi[i]);
 	}
 
-	int g[BOYUT] = { 0 };//galibiyet sayısı
-	int y[BOYUT] = { 0 };//yenilgi sayısı
-	int at[BOYUT] = { 0 };//atılan gol
-	int yen[BOYUT] = { 0 };//yenilen gol
-	int say;//oynanan maç sayısı
+	int g[BOYUT] = { 0 };
+	int y[BOYUT] = { 0 };
+	int at[BOYUT] = { 0 };
+	int yen[BOYUT] = { 0 };
+	int say;
 
 	srand(time(NULL));
-	for (int i = 0; i < BOYUT; i++)//i iç saha takımlarınıj dış saha takımlarını temsil ederek birbirleriyle eşleşme sağlanır.i=j olduğu zaman yapılmaması için if deyimi yazılır.
+	for (int i = 0; i < BOYUT; i++)
 	{
 		say = 0;
 
@@ -114,7 +109,6 @@ int main() {
 					say++;
 				}
 
-				//Dış Saha Maçları
 				if (dizi1[j] > dizi1[i])
 				{
 					g[j]++;
@@ -127,10 +121,10 @@ int main() {
 					say++;
 				}
 
-				at[i] += dizi1[i];//iç sahada atılan gol
-				yen[i] += dizi1[j];//iç sahada yenilen gol
-				at[j] += dizi1[j];//dış sahada atılan gol
-				yen[j] += dizi1[i];//dış sahada yenilen gol
+				at[i] += dizi1[i];
+				yen[i] += dizi1[j];
+				at[j] += dizi1[j];
+				yen[j] += dizi1[i];
 			}
 		}
 	}
@@ -141,36 +135,35 @@ int main() {
 
 	for (int i = 0; i < BOYUT; i++)
 	{
-		puan[i] = 2 * g[i];//puan
-		av[i] = at[i] - yen[i];//averaj
+		puan[i] = 2 * g[i];
+		av[i] = at[i] - yen[i];
 	}
 
-	int dizigenel[BOYUT][9];//bütün verilerin tutulduğu tablo
+	int dizigenel[BOYUT][9];
 
 	for (int i = 0; i < BOYUT; i++)
 	{
-		dizigenel[i][0] = (int)dizi[i];//string karakterli takımların diziye dahil edebilmek için tür dönüştürücü
-		dizigenel[i][1] = bosluk[i];//takım isimlerinin karakter sayısı
-		dizigenel[i][2] = say;//maç sayısı
-		dizigenel[i][3] = g[i];//galibiyet sayısı
-		dizigenel[i][4] = y[i];//yenilgi sayısı
-		dizigenel[i][5] = at[i];//atılan gol sayısı
-		dizigenel[i][6] = yen[i];//yenilen gol sayısı
-		dizigenel[i][7] = av[i];//averaj sayısı
-		dizigenel[i][8] = puan[i];//toplanan puan
+		dizigenel[i][0] = (int)dizi[i];
+		dizigenel[i][1] = bosluk[i];
+		dizigenel[i][2] = say;
+		dizigenel[i][3] = g[i];
+		dizigenel[i][4] = y[i];
+		dizigenel[i][5] = at[i];
+		dizigenel[i][6] = yen[i];
+		dizigenel[i][7] = av[i];
+		dizigenel[i][8] = puan[i];
 
 	}
 
-	func3(dizigenel);//fonksiyon 3e göre veriler sıralanır
+	func3(dizigenel);
+	int gU[BOYUT];
+	int yU[BOYUT];
+	int atU[BOYUT];
+	int yenU[BOYUT];
+	int avU[BOYUT];
+	int sayi[BOYUT];
 
-	int gU[BOYUT]; //galibiyet sayısı karakter 
-	int yU[BOYUT];//yenilgi sayısı karakter
-	int atU[BOYUT];//atılan gol karakter sayısı
-	int yenU[BOYUT];//yenilen gol karakter sayısı
-	int avU[BOYUT];//averaj karakter sayısı
-	int sayi[BOYUT];//oynanan maç karakter sayısı
-
-	for (int i = 0; i < BOYUT; i++)//yazdırma işlemi için gerekli bosluklar doğru yazılsın diye boşluk ayarı için hesaplamalar yapılır
+	for (int i = 0; i < BOYUT; i++)
 	{
 		sayi[i] = snprintf(NULL, 0, "%d", i + 1);
 		gU[i] = snprintf(NULL, 0, "%d", dizigenel[i][3]);
@@ -195,20 +188,19 @@ int main() {
 		{
 			printf("%d)%*s %s %*s %d %*s %d %*s %d %*s %d %*s %d %*s %*s%*s%d %*s %d\n", i + 1, 2 - sayi[i], "", dizigenel[i][0], 19 - dizigenel[i][1], "", dizigenel[i][2], 2, "", dizigenel[i][3], 3 - gU[i], "", dizigenel[i][4], 3 - yU[i], "", dizigenel[i][5], 3 - atU[i], "", dizigenel[i][6], 3 - yenU[i], "", 0, dizigenel[i][7] == 0 ? " " : "", 0, dizigenel[i][7] > 0 ? "+" : "", dizigenel[i][7], 3 - avU[i], "", dizigenel[i][8]);
 		}
-    }
+	}
+
+
 
 	printf("\n");
 
 	int Ceyrekfinal[8];
 	int Yarifinaltakim[4];
 
-	//Ceyrek final maçları için 8 skor üretir.
 	for (int i = 0; i < 8; i++)
 	{
 		Ceyrekfinal[i] = func2();
 	}
-
-	//(0-7) (1-6) (2-5) (3-4) ile oynar.
 
 	do
 	{
@@ -250,7 +242,6 @@ int main() {
 	if (Ceyrekfinal[3] < Ceyrekfinal[4])
 		Yarifinaltakim[3] = dizigenel[4][0];
 
-	//Ceyrek final skorlarının karakter uzunluğu
 	int CeyrekfinalU[8];
 
 	for (int i = 0; i < 8; i++)
@@ -269,13 +260,11 @@ int main() {
 	int Yarifinal[4];
 	int Finaltakim[2];
 
-	//4 tane Yarı final skoru üretilir
 	for (int i = 0; i < 4; i++)
 	{
 		Yarifinal[i] = func2();
 	}
 
-	// (0-7) galibi (2-5) galibi ile oynar.(1-6) galibi (3-4) galibi ile oynar.
 	do
 	{
 		Yarifinal[3] = func2();
@@ -296,29 +285,25 @@ int main() {
 	if (Yarifinal[1] < Yarifinal[2])
 		Finaltakim[1] = Yarifinaltakim[3];
 
-	//Yarifinal skorları karakter uzunlukları
+
 	int YarifinalU[4];
-   for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		YarifinalU[i] = snprintf(NULL, 0, "%d", Yarifinal[i]);
 	}
 
-   printf("\033[33mYARI FINAL\033[0m\n");
-  for (int i = 0; i < 2; i++)
+	printf("\033[33mYARI FINAL\033[0m\n");
+	for (int i = 0; i < 2; i++)
 	{
-		printf("%s %*s %*s %d   %d %*s %*s %s\n", Yarifinaltakim[i], Ceyrekfinal[i] > Ceyrekfinal[7 - i] ? 18 - dizigenel[i][1] : 18 - dizigenel[7 - i][1], "", 3-YarifinalU[i], "", Yarifinal[i], Yarifinal[i + 2], 3 - YarifinalU[i+2], "",7,"", Yarifinaltakim[i + 2]);
+		printf("%s %*s %*s %d   %d %*s %*s %s\n", Yarifinaltakim[i], Ceyrekfinal[i] > Ceyrekfinal[7 - i] ? 18 - dizigenel[i][1] : 18 - dizigenel[7 - i][1], "", 3 - YarifinalU[i], "", Yarifinal[i], Yarifinal[i + 2], 3 - YarifinalU[i + 2], "", 7, "", Yarifinaltakim[i + 2]);
 	}
 	printf("\n");
 
-	
 	int Final[2];
-	//2 farklı skor üretilir
 	for (int i = 0; i < 2; i++)
 	{
 		Final[i] = func2();
 	}
-	
-	//skorların eşit olmaması sağlanır
 	do
 	{
 		Final[1] = func2();
@@ -331,8 +316,8 @@ int main() {
 	}
 
 	printf("\033[33mFINAL\033[0m\n");
-    printf("%s %*s %*s %d   %d %*s %s\n\n", Finaltakim[0], Yarifinal[0] > Yarifinal[3] ? (Ceyrekfinal[0] > Ceyrekfinal[7] ? 18 - dizigenel[0][1] : 18 - dizigenel[7][1]) : (Ceyrekfinal[2] > Ceyrekfinal[5] ? 18 - dizigenel[2][1] : 18 - dizigenel[5][1]),"",
-		3-FinalU[0],"", Final[0], Final[1], 11 - FinalU[1], "", Finaltakim[1]);
+	printf("%s %*s %*s %d   %d %*s %s\n\n", Finaltakim[0], Yarifinal[0] > Yarifinal[3] ? (Ceyrekfinal[0] > Ceyrekfinal[7] ? 18 - dizigenel[0][1] : 18 - dizigenel[7][1]) : (Ceyrekfinal[2] > Ceyrekfinal[5] ? 18 - dizigenel[2][1] : 18 - dizigenel[5][1]), "",
+		3 - FinalU[0], "", Final[0], Final[1], 11 - FinalU[1], "", Finaltakim[1]);
 
 
 
@@ -340,14 +325,18 @@ int main() {
 	{
 		printf("\033[31mSampiyon:%s\033[0m\n\n", Finaltakim[0]);
 	}
-	
+
 	if (Final[0] < Final[1])
 	{
 		printf("\033[31mSampiyon:%s\033[0m\n\n", Finaltakim[1]);
 	}
 
 	return 0;
-	
+
 
 }
+
+
+
+
 
